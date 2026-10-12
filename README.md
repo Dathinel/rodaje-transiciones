@@ -1,6 +1,19 @@
-# rodaje-transiciones
+<p align="center">
+  <a href="https://github.com/Dathinel/rodaje"><img src="https://raw.githubusercontent.com/Dathinel/rodaje/main/assets/marca/rodaje.svg" alt="Logotipo de Rodaje" width="104"></a>
+</p>
 
-Complemento opcional para [Rodaje](https://github.com/Dathinel/rodaje): 8 transiciones hechas solo con curvas de la transformación y una mezcla del propio editor, sin shaders ni código.
+<h1 align="center">rodaje-transiciones</h1>
+
+<p align="center">
+  Complemento opcional para <a href="https://github.com/Dathinel/rodaje">Rodaje</a>: 8 transiciones hechas solo con curvas de la transformación y una mezcla del propio editor, sin shaders ni código.
+</p>
+
+<p align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/licencia-CC0_1.0-E8833A?style=flat-square&labelColor=1D1D1D" alt="Licencia CC0 1.0"></a>
+  <a href="https://github.com/Dathinel/rodaje-transiciones/releases/latest"><img src="https://img.shields.io/github/v/release/Dathinel/rodaje-transiciones?style=flat-square&labelColor=1D1D1D&color=E8833A&label=versi%C3%B3n" alt="Última versión"></a>
+  <img src="https://img.shields.io/badge/formato-.paquete-E8833A?style=flat-square&labelColor=1D1D1D" alt="Formato .paquete">
+  <a href="https://github.com/Dathinel/rodaje"><img src="https://img.shields.io/badge/para-Rodaje-E8833A?style=flat-square&labelColor=1D1D1D" alt="Para Rodaje"></a>
+</p>
 
 | Transición | Cómo es |
 |---|---|
@@ -11,7 +24,7 @@ Complemento opcional para [Rodaje](https://github.com/Dathinel/rodaje): 8 transi
 
 ## Instalar en Rodaje
 
-En Rodaje, Complementos → Instalar lo baja, comprueba su firma y lo instala. A mano: descarga `rodaje-transiciones-<versión>.paquete` de las releases y, en Rodaje, usa «Instalar desde archivo…» en Complementos o suéltalo sobre la biblioteca. Aparecen en Transiciones; se sueltan sobre un corte (0,5 s por defecto). Si un proyecto usa una y el paquete falta, se ve como fundido cruzado y Rodaje avisa.
+En Rodaje, Complementos → Instalar lo baja, comprueba su firma y lo instala. A mano: descarga `rodaje-transiciones-<versión>.paquete` de las [releases](https://github.com/Dathinel/rodaje-transiciones/releases) y, en Rodaje, usa «Instalar desde archivo…» en Complementos o suéltalo sobre la biblioteca. Aparecen en Transiciones; se sueltan sobre un corte (0,5 s por defecto). Si un proyecto usa una y el paquete falta, se ve como fundido cruzado y Rodaje avisa.
 
 ## Construir el paquete
 
@@ -29,4 +42,4 @@ Solo hace falta Windows PowerShell 5.1. Deja `dist\rodaje-transiciones-<versión
 
 ## Licencia
 
-CC0 1.0 (dominio público), ver `LICENSE`.
+CC0 1.0 (dominio público), ver `LICENSE`. El logotipo de Rodaje es marca de su autor y no forma parte de este contenido ([TRADEMARK.md](https://github.com/Dathinel/rodaje/blob/main/TRADEMARK.md)).
