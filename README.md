@@ -5,7 +5,7 @@
 <h1 align="center">rodaje-transiciones</h1>
 
 <p align="center">
-  Complemento opcional para <a href="https://github.com/Dathinel/rodaje">Rodaje</a>: 8 transiciones hechas solo con curvas de la transformación y una mezcla del propio editor, sin shaders ni código.
+  Complemento opcional para <a href="https://github.com/Dathinel/rodaje">Rodaje</a>: 22 transiciones hechas solo con curvas de la transformación y una mezcla del propio editor, sin shaders ni código.
 </p>
 
 <p align="center">
@@ -18,9 +18,15 @@
 | Transición | Cómo es |
 |---|---|
 | Deslizar a la izquierda, derecha, arriba y abajo | El clip nuevo entra desde fuera del cuadro y tapa al anterior (barrido sin borde que sigue al clip) |
-| Empujar | El nuevo entra por la derecha y empuja al anterior fuera |
+| Empujar (a la izquierda), a la derecha, arriba y abajo | El nuevo entra y empuja al anterior fuera |
 | Acercar y alejar | Fundido mientras la cámara se acerca o se aleja |
 | Girar | Un cuarto de vuelta con fundido |
+| Atravesar | El anterior crece mucho y el nuevo llega desde atrás, con fundido |
+| Girar y empujar | Empujar con un leve giro |
+| Fundido a negro y a blanco | Al color y desde él |
+| Fundido desenfocado | Fundido cruzado a través de un desenfoque |
+| Barrido a la derecha, izquierda, abajo y arriba | Borde suave que cruza el cuadro |
+| Barrido en diagonal y en diagonal inverso | Borde suave a 45° |
 
 ## Instalar en Rodaje
 
@@ -32,12 +38,12 @@ En Rodaje, Complementos → Instalar lo baja, comprueba su firma y lo instala. A
 powershell -NoProfile -ExecutionPolicy Bypass -File empaquetar.ps1
 ```
 
-Solo hace falta Windows PowerShell 5.1. Deja `dist\rodaje-transiciones-<versión>.paquete` con orden y fecha fijos: las mismas fuentes dan el mismo archivo byte a byte. `-Salida <carpeta>` cambia dónde queda.
+Solo hace falta Windows PowerShell 5.1. Genera las transiciones y deja `dist\rodaje-transiciones-<versión>.paquete` con orden y fecha fijos: las mismas fuentes dan el mismo archivo byte a byte. `-Salida <carpeta>` cambia dónde queda. Las 8 de la 1.0.0 salen idénticas byte a byte, así los proyectos que las usan no cambian.
 
 | Archivo | Qué es |
 |---|---|
-| `paquete.json` | Manifiesto: 8 `transition` |
-| `transiciones/*.json` | `rodaje.preset` v2: curvas del clip que sale y del que entra, más la mezcla |
+| `paquete.json` | Manifiesto: 22 `transition` |
+| `generar.ps1` | Las curvas y mezclas; escribe `transiciones/*.json` (`rodaje.preset` v2) |
 | `empaquetar.ps1` | Arma el `.paquete` |
 
 ## Licencia

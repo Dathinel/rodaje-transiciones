@@ -1,10 +1,10 @@
 {
   "formatVersion": 1,
   "id": "rodaje-transiciones",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "kind": "content",
   "name": "Transiciones",
-  "description": "Deslizar, empujar, acercar, alejar y girar, hechas con curvas sobre las primitivas de Rodaje. Contenido propio de dominio público (CC0).",
+  "description": "22 transiciones: deslizar, empujar, acercar, alejar, girar, atravesar, fundidos a negro, a blanco y desenfocado, y barridos con borde suave, hechas con curvas sobre las primitivas de Rodaje. Contenido propio de dominio público (CC0).",
   "author": "Dathinel",
   "license": "CC0-1.0",
   "repository": "https://github.com/Dathinel/rodaje-transiciones",
@@ -67,6 +67,104 @@
       "name": "Girar",
       "file": "transiciones/girar.json",
       "description": "Un cuarto de vuelta con fundido."
+    },
+    {
+      "id": "empujar-derecha",
+      "kind": "transition",
+      "name": "Empujar a la derecha",
+      "file": "transiciones/empujar-derecha.json",
+      "description": "El clip nuevo entra por la izquierda y empuja al anterior fuera del cuadro."
+    },
+    {
+      "id": "empujar-arriba",
+      "kind": "transition",
+      "name": "Empujar hacia arriba",
+      "file": "transiciones/empujar-arriba.json",
+      "description": "El clip nuevo sube desde abajo y empuja al anterior fuera del cuadro."
+    },
+    {
+      "id": "empujar-abajo",
+      "kind": "transition",
+      "name": "Empujar hacia abajo",
+      "file": "transiciones/empujar-abajo.json",
+      "description": "El clip nuevo baja desde arriba y empuja al anterior fuera del cuadro."
+    },
+    {
+      "id": "fundido-negro",
+      "kind": "transition",
+      "name": "Fundido a negro",
+      "file": "transiciones/fundido-negro.json",
+      "description": "El clip se funde a negro y el nuevo sale del negro."
+    },
+    {
+      "id": "fundido-blanco",
+      "kind": "transition",
+      "name": "Fundido a blanco",
+      "file": "transiciones/fundido-blanco.json",
+      "description": "El clip se funde a blanco y el nuevo sale del blanco, como un destello."
+    },
+    {
+      "id": "fundido-desenfocado",
+      "kind": "transition",
+      "name": "Fundido desenfocado",
+      "file": "transiciones/fundido-desenfocado.json",
+      "description": "Fundido cruzado a través de un desenfoque."
+    },
+    {
+      "id": "barrido-derecha",
+      "kind": "transition",
+      "name": "Barrido a la derecha",
+      "file": "transiciones/barrido-derecha.json",
+      "description": "Un borde suave cruza de izquierda a derecha."
+    },
+    {
+      "id": "barrido-izquierda",
+      "kind": "transition",
+      "name": "Barrido a la izquierda",
+      "file": "transiciones/barrido-izquierda.json",
+      "description": "Un borde suave cruza de derecha a izquierda."
+    },
+    {
+      "id": "barrido-abajo",
+      "kind": "transition",
+      "name": "Barrido hacia abajo",
+      "file": "transiciones/barrido-abajo.json",
+      "description": "Un borde suave baja de arriba abajo."
+    },
+    {
+      "id": "barrido-arriba",
+      "kind": "transition",
+      "name": "Barrido hacia arriba",
+      "file": "transiciones/barrido-arriba.json",
+      "description": "Un borde suave sube de abajo arriba."
+    },
+    {
+      "id": "barrido-diagonal",
+      "kind": "transition",
+      "name": "Barrido en diagonal",
+      "file": "transiciones/barrido-diagonal.json",
+      "description": "Un borde suave cruza en diagonal, de arriba a la izquierda hacia abajo a la derecha."
+    },
+    {
+      "id": "barrido-diagonal-inverso",
+      "kind": "transition",
+      "name": "Barrido en diagonal inverso",
+      "file": "transiciones/barrido-diagonal-inverso.json",
+      "description": "Un borde suave cruza en diagonal, de abajo a la derecha hacia arriba a la izquierda."
+    },
+    {
+      "id": "atravesar",
+      "kind": "transition",
+      "name": "Atravesar",
+      "file": "transiciones/atravesar.json",
+      "description": "La cámara atraviesa el clip: el anterior crece mucho y el nuevo llega desde atrás, con fundido."
+    },
+    {
+      "id": "girar-empujar",
+      "kind": "transition",
+      "name": "Girar y empujar",
+      "file": "transiciones/girar-empujar.json",
+      "description": "El clip nuevo empuja al anterior hacia la izquierda con un leve giro."
     }
   ]
 }
