@@ -11,6 +11,7 @@
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/licencia-CC0_1.0-E8833A?style=flat-square&labelColor=1D1D1D" alt="Licencia CC0 1.0"></a>
   <a href="https://github.com/Dathinel/rodaje-transiciones/releases/latest"><img src="https://img.shields.io/github/v/release/Dathinel/rodaje-transiciones?style=flat-square&labelColor=1D1D1D&color=E8833A&label=versi%C3%B3n" alt="Última versión"></a>
+  <img src="https://img.shields.io/badge/contenido-45_transiciones-E8833A?style=flat-square&labelColor=1D1D1D" alt="Contenido: 45 transiciones">
   <img src="https://img.shields.io/badge/formato-.paquete-E8833A?style=flat-square&labelColor=1D1D1D" alt="Formato .paquete">
   <a href="https://github.com/Dathinel/rodaje"><img src="https://img.shields.io/badge/para-Rodaje-E8833A?style=flat-square&labelColor=1D1D1D" alt="Para Rodaje"></a>
 </p>
@@ -46,7 +47,7 @@
 
 ## Instalar en Rodaje
 
-En Rodaje, Complementos → Instalar lo baja, comprueba su firma y lo instala. A mano: descarga `rodaje-transiciones-<versión>.paquete` de las [releases](https://github.com/Dathinel/rodaje-transiciones/releases) y, en Rodaje, usa «Instalar desde archivo…» en Complementos o suéltalo sobre la biblioteca. Aparecen en Transiciones; se sueltan sobre un corte (0,5 s por defecto). Si un proyecto usa una y el paquete falta, se ve como fundido cruzado y Rodaje avisa.
+En Rodaje, Complementos → Instalar lo baja, comprueba su firma y lo instala. A mano: descarga `rodaje-transiciones-<versión>.paquete` de las [releases](https://github.com/Dathinel/rodaje-transiciones/releases) y, en Rodaje, usa «Instalar desde archivo…» en Complementos o suéltalo sobre la biblioteca. Aparecen en Transiciones; se sueltan sobre un corte (0,5 s por defecto). Si un proyecto usa una y el paquete falta, se ve como fundido cruzado y Rodaje avisa. Más detalles en la [guía de complementos](https://github.com/Dathinel/rodaje/blob/main/docs/guia/complementos.md).
 
 ## Construir el paquete
 
