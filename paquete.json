@@ -1,10 +1,10 @@
 {
   "formatVersion": 1,
   "id": "rodaje-transiciones",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "kind": "content",
   "name": "Transiciones",
-  "description": "22 transiciones: deslizar, empujar, acercar, alejar, girar, atravesar, fundidos a negro, a blanco y desenfocado, y barridos con borde suave, hechas con curvas sobre las primitivas de Rodaje. Contenido propio de dominio público (CC0).",
+  "description": "45 transiciones: deslizar, empujar, acercar, alejar, girar, atravesar, fundidos, barridos y, desde la 1.2.0, giros, zooms con desenfoque, latigazos, barridos de luz, fallos digitales, quemados, destellos, reloj, iris, nubes, persianas y rebotes con las mezclas de calidad de Rodaje. Contenido propio de dominio público (CC0).",
   "author": "Dathinel",
   "license": "CC0-1.0",
   "repository": "https://github.com/Dathinel/rodaje-transiciones",
@@ -165,6 +165,167 @@
       "name": "Girar y empujar",
       "file": "transiciones/girar-empujar.json",
       "description": "El clip nuevo empuja al anterior hacia la izquierda con un leve giro."
+    },
+    {
+      "id": "giro-rapido",
+      "kind": "transition",
+      "name": "Giro rápido",
+      "file": "transiciones/giro-rapido.json",
+      "description": "Una vuelta entera con acercamiento y desenfoque de movimiento."
+    },
+    {
+      "id": "giro-media-vuelta",
+      "kind": "transition",
+      "name": "Media vuelta",
+      "file": "transiciones/giro-media-vuelta.json",
+      "description": "Media vuelta hacia la izquierda con un leve acercamiento."
+    },
+    {
+      "id": "zoom-explosivo",
+      "kind": "transition",
+      "name": "Zoom explosivo",
+      "file": "transiciones/zoom-explosivo.json",
+      "description": "Un acercamiento fuerte con desenfoque radial hacia el centro."
+    },
+    {
+      "id": "zoom-suave",
+      "kind": "transition",
+      "name": "Zoom suave",
+      "file": "transiciones/zoom-suave.json",
+      "description": "Un acercamiento corto con un desenfoque radial ligero."
+    },
+    {
+      "id": "latigazo-izquierda",
+      "kind": "transition",
+      "name": "Latigazo a la izquierda",
+      "file": "transiciones/latigazo-izquierda.json",
+      "description": "Paneo rápido: los dos clips corren a la izquierda con mucho desenfoque de movimiento."
+    },
+    {
+      "id": "latigazo-derecha",
+      "kind": "transition",
+      "name": "Latigazo a la derecha",
+      "file": "transiciones/latigazo-derecha.json",
+      "description": "Paneo rápido: los dos clips corren a la derecha con mucho desenfoque de movimiento."
+    },
+    {
+      "id": "deslizar-diagonal",
+      "kind": "transition",
+      "name": "Deslizar en diagonal",
+      "file": "transiciones/deslizar-diagonal.json",
+      "description": "El clip nuevo entra en diagonal desde arriba a la izquierda, con desenfoque de movimiento."
+    },
+    {
+      "id": "barrido-luz-dorada",
+      "kind": "transition",
+      "name": "Barrido de luz dorada",
+      "file": "transiciones/barrido-luz-dorada.json",
+      "description": "Un barrido inclinado con una franja de luz cálida en el borde."
+    },
+    {
+      "id": "barrido-luz-fria",
+      "kind": "transition",
+      "name": "Barrido de luz fría",
+      "file": "transiciones/barrido-luz-fria.json",
+      "description": "Un barrido de derecha a izquierda con una franja de luz azulada."
+    },
+    {
+      "id": "fallo-digital-fuerte",
+      "kind": "transition",
+      "name": "Fallo digital fuerte",
+      "file": "transiciones/fallo-digital-fuerte.json",
+      "description": "Muchas franjas corridas y los canales de color bien separados."
+    },
+    {
+      "id": "fallo-digital-sutil",
+      "kind": "transition",
+      "name": "Fallo digital sutil",
+      "file": "transiciones/fallo-digital-sutil.json",
+      "description": "Pocas franjas y una separación de color leve."
+    },
+    {
+      "id": "quemado-calido",
+      "kind": "transition",
+      "name": "Quemado cálido",
+      "file": "transiciones/quemado-calido.json",
+      "description": "Manchas grandes de luz anaranjada que queman la película."
+    },
+    {
+      "id": "quemado-rojo",
+      "kind": "transition",
+      "name": "Quemado rojo",
+      "file": "transiciones/quemado-rojo.json",
+      "description": "Manchas chicas de luz roja intensa."
+    },
+    {
+      "id": "destello-blanco",
+      "kind": "transition",
+      "name": "Destello blanco",
+      "file": "transiciones/destello-blanco.json",
+      "description": "Un destello corto y fuerte tapa el corte."
+    },
+    {
+      "id": "destello-calido",
+      "kind": "transition",
+      "name": "Destello cálido",
+      "file": "transiciones/destello-calido.json",
+      "description": "Un destello largo de luz cálida."
+    },
+    {
+      "id": "luma-reloj",
+      "kind": "transition",
+      "name": "Reloj",
+      "file": "transiciones/luma-reloj.json",
+      "description": "El clip nuevo aparece como las agujas de un reloj."
+    },
+    {
+      "id": "luma-iris",
+      "kind": "transition",
+      "name": "Iris",
+      "file": "transiciones/luma-iris.json",
+      "description": "Un círculo con borde blanco se abre desde el centro."
+    },
+    {
+      "id": "luma-nubes",
+      "kind": "transition",
+      "name": "Nubes",
+      "file": "transiciones/luma-nubes.json",
+      "description": "El clip nuevo aparece por manchas suaves, como nubes."
+    },
+    {
+      "id": "luma-persianas",
+      "kind": "transition",
+      "name": "Persianas",
+      "file": "transiciones/luma-persianas.json",
+      "description": "Franjas horizontales que se abren a la vez."
+    },
+    {
+      "id": "luma-rombo",
+      "kind": "transition",
+      "name": "Rombo",
+      "file": "transiciones/luma-rombo.json",
+      "description": "Un rombo se abre desde el centro."
+    },
+    {
+      "id": "rebote-izquierda",
+      "kind": "transition",
+      "name": "Rebote a la izquierda",
+      "file": "transiciones/rebote-izquierda.json",
+      "description": "El clip nuevo empuja al anterior hacia la izquierda, se pasa y vuelve."
+    },
+    {
+      "id": "rebote-arriba",
+      "kind": "transition",
+      "name": "Rebote hacia arriba",
+      "file": "transiciones/rebote-arriba.json",
+      "description": "El clip nuevo empuja al anterior hacia arriba, se pasa y vuelve."
+    },
+    {
+      "id": "barrido-borde-blanco",
+      "kind": "transition",
+      "name": "Barrido con borde blanco",
+      "file": "transiciones/barrido-borde-blanco.json",
+      "description": "Un barrido nítido con una línea blanca delante del cambio."
     }
   ]
 }
