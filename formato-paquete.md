@@ -50,7 +50,7 @@ rodaje-transiciones.paquete
 | `items` | No | Elementos, cada uno con `id` (único en el paquete), `kind`, `name` y, si los necesita, `file`, `description`, `license` (cuando no es la del paquete) y `preview`. |
 | `module` | Solo en módulos | `entry` (ejecutable relativo), `protocol` (versión del protocolo de módulos) y `functions` (lo que ofrece); opcionales `vramMb`, `runtime` y `models` ([Módulos de IA](#módulos-de-ia)). |
 
-Los tipos de elemento son `transition`, `text-style`, `effect`, `filter`, `lut`, `template`, `sound`, `font` y `safe-zones`. La biblioteca los reparte por categoría: Texto muestra `text-style`; Efectos, `effect`; Transiciones, `transition`; Filtros, `filter` y `lut`; Audio, `sound`. Las plantillas se ven en la página de complementos hasta que exista su panel; las zonas (`safe-zones`), en el botón de zonas seguras del visor. El contenido de los archivos `lut`, `filter`, `effect`, `transition`, `text-style` y `safe-zones` está en [Contenido de los elementos](#contenido-de-los-elementos); `text-style` es `rodaje.textstyle` v1, y de `template` y `sound` el formato solo garantiza que el archivo existe y está dentro del paquete.
+Los tipos de elemento son `transition`, `text-style`, `effect`, `filter`, `lut`, `template`, `sound`, `font`, `safe-zones` y `export-preset`. La biblioteca los reparte por categoría: Texto muestra `text-style`; Efectos, `effect`; Transiciones, `transition`; Filtros, `filter` y `lut`; Audio, `sound`. Las plantillas se ven en la página de complementos hasta que exista su panel; las zonas (`safe-zones`), en el botón de zonas seguras del visor; los preajustes de exportación (`export-preset`), en el diálogo de exportar. El contenido de los archivos `lut`, `filter`, `effect`, `transition`, `text-style`, `safe-zones`, `sound` y `export-preset` está en [Contenido de los elementos](#contenido-de-los-elementos); de `template` el formato solo garantiza que el archivo existe y está dentro del paquete.
 
 **Fuentes (`font`, D-029).** Una familia por elemento, con sus archivos sin modificar en `files` (o uno en `file`): de 1 a 32 `.ttf`, `.otf`, `.ttc` u `.otc`, cada uno de hasta 20 MB y la familia de hasta 100 MB. `license` es obligatoria (por ejemplo `OFL-1.1`): una fuente de terceros no tiene la licencia del paquete. Rodaje solo registra en su colección privada de DirectWrite (no en Windows) los archivos que un elemento `font` declara, nunca otros archivos del paquete ni fuentes sueltas de un proyecto; un archivo que DirectWrite rechaza deja esa familia con su respaldo. Al instalar se avisa de cuánto ocupan. Un estilo apunta a la familia con `font.family` y a su elemento con `font.source`.
 
@@ -71,7 +71,8 @@ Un proyecto que usa un elemento de un paquete guarda `paquete@versión/elemento`
 | Carpeta | Qué hay | Quién escribe |
 |---|---|---|
 | `%LOCALAPPDATA%\Rodaje\complementos\paquetes\<id>\` | Paquetes de contenido instalados | El instalador |
-| `%LOCALAPPDATA%\Rodaje\complementos\modulos\<id>\` | Módulos de IA instalados | El instalador |
+| `%LOCALAPPDATA%\Rodaje\complementos\modulos\<id>\` | Módulos de IA instalados, con sus modelos en `<file>` | El instalador y la descarga de modelos |
+| `%LOCALAPPDATA%\Rodaje\complementos\modelos\<sha256>` | Almacén de modelos, uno por contenido (enlazados desde cada módulo) | La descarga de modelos |
 | `%LOCALAPPDATA%\Rodaje\complementos\propios\` | Lo que hace la persona en Rodaje, por ejemplo «Guardar como transición» del inspector | El programa |
 | `app\paquetes\` y `app\modulos\` (junto a `app\Rodaje.exe`) | Lo que trae la distribución completa | Nadie: solo lectura |
 
@@ -106,7 +107,7 @@ Los lectores están en `ContentReaders` (`src/Rodaje.Packages/Content`). Ninguno
 | Tipos de efecto en minúsculas con un punto (`rodaje.color`, `otro.efecto`); nombres de parámetro y opción ASCII empezando por letra | Un tipo desconocido se conserva en el proyecto, pero el motor no lo aplica |
 | Hasta 32 efectos, 64 curvas, 16 parámetros y 16 opciones por efecto, 1000 claves por curva, opciones de hasta 256 caracteres | Se rechaza el archivo |
 | Valores finitos; `scale` de 0 a 100 y `opacity` de 0 a 1 en la transformación | Se rechaza el archivo |
-| Claves `{ t, value, interp }`: `t` en segundos de 0 a `durationSeconds`, estrictamente creciente; `interp` es `hold`, `linear` (por defecto), `easeIn`, `easeOut` o `easeInOut` | Se rechaza el archivo |
+| Claves `{ t, value, interp }`: `t` en segundos de 0 a `durationSeconds`, estrictamente creciente; `interp` es `hold`, `linear` (por defecto), `easeIn`, `easeOut`, `easeInOut`, `bounce`, `elastic` o `bezier`, que pide además `ease: [x1, y1, x2, y2]` (x de 0 a 1, y de −2 a 3) | Se rechaza el archivo |
 | `reference: { width, height }` (16 a 16384, por defecto 1920 × 1080): las posiciones van en píxeles de esa secuencia y se escalan a la del proyecto | Se rechaza el archivo |
 
 ### `lut`: `.cube` 3D
@@ -146,7 +147,7 @@ Una lista no vacía de efectos con valores fijos; lo que falta toma el valor por
 
 Curvas de la transformación del clip que sale (`outgoing`) y del que entra (`incoming`), por parámetro (`x`, `y`, `scale`, `rotation`, `opacity`), más la **mezcla** de las dos imágenes: una transición propia del registro (`rodaje.crossfade` por defecto, `rodaje.wipe`, `rodaje.dip`…; nunca `rodaje.preset`) con sus `mixParameters` y `mixOptions` opcionales. `durationSeconds` (hasta 60 s) es la duración para la que se escribieron las curvas: al usarla se estiran a la de la transición de la pista (`t / durationSeconds` es el avance de 0 a 1). Las dos listas pueden faltar: un preajuste sin curvas es solo la mezcla. El v1 de «Guardar como transición» se lee como curvas del clip que entra con fundido cruzado.
 
-### `text-style`: `rodaje.textstyle` v1
+### `text-style`: `rodaje.textstyle` v1 y v2
 
 ```json
 { "format": "rodaje.textstyle", "version": 1, "id": "clasico", "name": "Clásico",
@@ -155,11 +156,23 @@ Curvas de la transformación del clip que sale (`outgoing`) y del que entra (`in
   "fill": { "color": "#FFFFFF" }, "stroke": { "color": "#000000", "width": 6, "join": "round" },
   "shadow": { "color": "#00000099", "dx": 4, "dy": 6, "blur": 8 },
   "background": { "color": "#00000080", "padding": [24, 12], "radius": 12 },
+  "highlight": { "color": "#FFD400" },
   "in":  { "durationSeconds": 0.4, "curves": { "opacity": [ { "t": 0, "value": 0, "interp": "easeOut" }, { "t": 0.4, "value": 1 } ] } },
   "out": { "durationSeconds": 0.3, "curves": { "opacity": [ { "t": 0, "value": 1 }, { "t": 0.3, "value": 0 } ] } } }
 ```
 
-Un estilo de título. Obligatorios `font.family` y `size` (mayor que 0 y hasta 1000); lo demás tiene valor por defecto (peso 400, interlineado 1,2, centrado, relleno blanco) o falta (sin borde, sombra, fondo ni animación). Medidas en píxeles de `reference`; colores `#RRGGBB` o `#RRGGBBAA`; peso entero de 100 a 900; hasta 8 fuentes de respaldo; `font.source` es la referencia de un elemento `font`; borde de hasta la mitad de `size`, `blur` de 0 a 64, desplazamientos y márgenes de hasta 1000; `in` y `out` (hasta 60 s) son curvas de `rodaje.transform` por parámetro, como en `rodaje.preset`, en segundos desde su borde del clip. Al aplicarlo el proyecto guarda una copia con `source` (D-029): actualizar el paquete no cambia los títulos ya puestos.
+Un estilo de título. Obligatorios `font.family` y `size` (mayor que 0 y hasta 1000); lo demás tiene valor por defecto (peso 400, interlineado 1,2, centrado, relleno blanco) o falta (sin borde, sombra, fondo ni animación). Medidas en píxeles de `reference`; colores `#RRGGBB` o `#RRGGBBAA`; peso entero de 100 a 900; hasta 8 fuentes de respaldo; `font.source` es la referencia de un elemento `font`; borde de hasta la mitad de `size`, `blur` de 0 a 64, desplazamientos y márgenes de hasta 1000; `highlight.color` es el color de la palabra que se está diciendo en los subtítulos con tiempos por palabra (karaoke); `in` y `out` (hasta 60 s) son curvas de `rodaje.transform` por parámetro, como en `rodaje.preset`, en segundos desde su borde del clip. Al aplicarlo el proyecto guarda una copia con `source` (D-029): actualizar el paquete no cambia los títulos ya puestos.
+
+**Versión 2** (D-039; la 1 se sigue leyendo y un estilo sin nada de esto se guarda como 1): `fill.gradient` (`kind` `linear` o `radial`, `angle` de −360 a 360, de 2 a 8 `stops` `{ "position", "color" }` en orden), `extraStrokes` y `extraShadows` (hasta 4 cada uno, con los campos de `stroke` y `shadow`), `typography` (`kerning`, `case`: `none`, `upper`, `lower` o `smallCaps`, `features`: hasta 16 etiquetas OpenType de 4 caracteres con `-` delante para apagarlas, `fit`: `none`, `shrink` o `fill`), `path` (`{ "kind": "arc", "bend" }` de −360 a 360), `highlight.mode` (`word` o `sweep`) y, en `in` y `out`, `unit` (`block`, `line`, `word` o `letter`), `stagger` (0 a 1), `order` (`forward`, `backward`, `center`, `edges` o `random`) y la curva `blur` (0 a 64), con las interpolaciones `bounce` y `elastic`. El significado de cada campo es el del proyecto ([formato-proyecto.md](https://github.com/Dathinel/rodaje/blob/main/docs/formato-proyecto.md#títulos-profesionales-formato-9)).
+
+```json
+{ "format": "rodaje.textstyle", "version": 2, "name": "Neón por letra", "font": { "family": "Inter", "weight": 800 }, "size": 120,
+  "fill": { "color": "#FFFFFF", "gradient": { "kind": "linear", "angle": 90, "stops": [ { "position": 0, "color": "#FFD400" }, { "position": 1, "color": "#FF3D00" } ] } },
+  "stroke": { "color": "#000000", "width": 4 }, "extraStrokes": [ { "color": "#FFFFFF", "width": 12 } ],
+  "typography": { "case": "upper", "features": ["ss01"] }, "path": { "kind": "arc", "bend": 60 },
+  "in": { "durationSeconds": 1.2, "unit": "letter", "stagger": 0.6,
+          "curves": { "y": [ { "t": 0, "value": -120, "interp": "bounce" }, { "t": 1.2, "value": 0 } ], "blur": [ { "t": 0, "value": 12 }, { "t": 0.6, "value": 0 } ] } } }
+```
 
 ### `safe-zones`: `rodaje.safezones` v1
 
@@ -171,9 +184,50 @@ Un estilo de título. Obligatorios `font.family` y `size` (mayor que 0 y hasta 1
              { "label": "Títulos", "kind": "safe", "rect": [0.05, 0.05, 0.9, 0.9] } ] }
 ```
 
-Zonas que el visor dibuja encima de la imagen para no poner títulos debajo de la interfaz de una red, o unos márgenes propios. Solo datos: rectángulos y etiquetas que Rodaje dibuja a su manera (zona sombreada con su etiqueta, o línea discontinua), nunca imágenes, logotipos ni capturas de otras apps. `rect` es `[x, y, ancho, alto]` en fracciones de la imagen (0 a 1, desde arriba a la izquierda), con ancho y alto mayores que 0 y sin salirse (`x + ancho` e `y + alto` hasta 1); de 1 a 32 zonas; `label` de 1 a 60 caracteres; `kind` es `interface` (por defecto: lo que tapa la interfaz) o `safe` (el borde de un margen seguro). `aspect` (enteros de 1 a 100) es la forma para la que se pensó: sin él sirve para cualquiera, y si el proyecto tiene otra el visor lo dibuja igual y avisa «Pensadas para 9:16». `center: true` pone la cruz del centro. El escritor (`ContentReaders.WriteSafeZones`) da el mismo JSON.
+Zonas que el visor dibuja encima de la imagen para no poner títulos debajo de la interfaz de una red, o unos márgenes propios. Solo datos: rectángulos y etiquetas que Rodaje dibuja a su manera (zona sombreada con su etiqueta, o línea discontinua), nunca imágenes, logotipos ni capturas de otras apps. `rect` es `[x, y, ancho, alto]` en fracciones de la imagen (0 a 1, desde arriba a la izquierda), con ancho y alto mayores que 0 y sin salirse (`x + ancho` e `y + alto` hasta 1); de 1 a 32 zonas; `label` de 1 a 60 caracteres; `kind` es `interface` (por defecto: lo que tapa la interfaz) o `safe` (el borde de un margen seguro). `aspect` (enteros de 1 a 100) es la forma para la que se pensó: sin él sirve para cualquiera, y si el proyecto tiene otra el visor lo dibuja igual y avisa «Pensadas para 9:16». `center: true` pone la cruz del centro. El escritor (`ContentReaders.WriteSafeZones`) escribe este mismo formato con las posiciones de `rect` redondeadas a 4 decimales, a propósito: la primera escritura puede mover una posición hasta 5e-5 (de un archivo escrito a mano con más decimales), y a partir de ahí leer y volver a escribir da los mismos bytes. Si el redondeo dejara un tamaño en 0 o haría que la zona se saliera de la imagen, ese eje se escribe sin redondear.
 
 **De fábrica** (`src/Rodaje.App/Services/SafeZones/Fabrica`, incluidos en el ejecutable y leídos con este mismo lector): los clásicos (acción 93 % y títulos 90 %, EBU R 95), TikTok, Instagram Reels, YouTube Shorts, Facebook Reels, Historias de Instagram y YouTube 16:9, con referencias `fabrica/<id>`. Las posiciones son aproximadas y esquemáticas (las apps cambian su interfaz): se corrigen editando el JSON. Los nombres de las redes son marcas de sus dueños y solo se usan para decir a qué interfaz se refiere cada juego. **Propias:** el editor del visor guarda `propios\<nombre>.json` con `"kind": "safe-zones"` además de `format`, así el mismo archivo es un elemento propio suelto y se puede publicar tal cual en un paquete.
+
+### `sound`: WAV
+
+RIFF/WAVE con PCM de 16, 24 o 32 bits o float de 32 (también `WAVE_FORMAT_EXTENSIBLE` con esos subformatos), de 8 a 192 kHz y de 1 a 8 canales, hasta 64 MB (`ContentReaders.ReadSoundInfo` lee la cabecera; `ReadSound`, las muestras en float). Se rechazan con el motivo: otra cabecera, otro formato de muestra, frecuencias o canales fuera de rango, datos antes de `fmt`, sin datos o cortados. Mil archivos dañados al azar solo dan `PackageContentException`.
+
+En la biblioteca (Audio) un sonido se escucha antes («Escuchar» en su menú), se añade en el cursor con doble clic o se arrastra a la línea de tiempo (`rodaje/sonido`, con una sombra del largo del sonido). Al usarlo, el WAV se copia a `sonidos\<paquete>-<elemento>.wav` en la carpeta de medios del proyecto (`Nombre.medios`, D-034) y entra como medio y clip de audio en un solo paso del historial, en la pista de audio bajo el puntero si está libre, en la primera libre o en una pista «Efectos» nueva. Así el proyecto no depende del paquete: desinstalarlo no deja el clip sin medio.
+
+### `export-preset`: `rodaje.exportpreset` v1
+
+```json
+{ "format": "rodaje.exportpreset", "version": 1, "id": "emision-1080i25-ebu", "name": "Emisión HD 1080i25 (EBU R128)",
+  "description": "ProRes 422 HQ entrelazado", "category": "broadcast", "container": "mov", "fastStart": false,
+  "video": { "codec": "prores", "profile": "hq", "bitDepth": 10, "chroma": "422", "width": 1920, "height": 1080,
+             "frameRate": 25, "fieldOrder": "tff", "rateControl": "profile" },
+  "audio": { "codec": "pcm", "sampleFormat": "s24", "rateControl": "lossless", "loudness": { "lufs": -23, "truePeak": -1 } } }
+```
+
+| Campo | Valores |
+|---|---|
+| `category` | `platform`, `quality`, `master` (por defecto), `web`, `audio`, `broadcast`, `cinema` o `archive` |
+| `container` | Obligatorio: el contenedor en minúsculas (`mp4`, `mov`, `mkv`, `webm`, `mxf`, `mpegts`, `m4a`…) |
+| `fastStart`, `chapters` | `true` o `false` (por defecto `true` y `false`) |
+| `video.codec` | Obligatorio con `video`: `h264`, `hevc`, `av1`, `vp9`, `prores`, `dnxhr`, `ffv1`… |
+| `video.profile`, `speedPreset` | Los del codificador (`hq`, `4444`, `dnxhr_hqx`, `high`…); minúsculas, dígitos y `_` |
+| `video.level` | El del codificador (`4.1`, `5.2`, `high`…); letras, dígitos y punto, hasta 16 |
+| `video.bitDepth`, `chroma`, `alpha` | 8, 10, 12 o 16; `420`, `422` o `444`; `true` o `false` |
+| `video.width`, `height`, `fit` | De 16 a 16384 (sin ellos, el tamaño de la secuencia); `bars`, `crop` o `stretch` |
+| `video.frameRate` | Un número (25, 29.97, 23.976 y 59.94 se leen como 30000/1001 y compañía) o `"30000/1001"`; sin ella, la de la secuencia |
+| `video.fieldOrder` | `progressive`, `tff` o `bff`. Entrelazado necesita `frameRate` (de cuadros, no de campos) |
+| `video.rateControl` | `crf`, `vbr`, `cbr`, `abr`, `lossless` o `profile`, con `quality`, `bitrateKbps` (obligatoria en `vbr`, `cbr` y `abr`), `maxBitrateKbps`, `bufferKbps` y `passes` (2 solo con `vbr` o `abr`) |
+| `video.keyframeSeconds`, `closedGop`, `bFrames` | GOP |
+| `video.projection` | `flat` o `equirectangular` (video 360: el MP4/MOV lleva los metadatos esféricos) |
+| `audio.codec`, `sampleRate`, `channels`, `sampleFormat` | `aac`, `opus`, `flac`, `pcm`…; de 8 a 192 kHz; de 1 a 8; `s16`, `s24`, `s32` o `float` |
+| `audio.rateControl`, `bitrateKbps`, `quality` | `cbr`, `vbr`, `crf` o `lossless` |
+| `audio.loudness` | `lufs` (de −70 a −5) y `truePeak` (de −9 a 0, por defecto −1) |
+
+`Rodaje.Packages` no conoce los códecs: valida la forma y los rangos (`ContentReaders.ReadExportPreset`, que da `ExportPresetDefinition`). La app los traduce a `ExportSettings` (`PackageExportPresets`) y rechaza con «actualiza el programa» un nombre que no tiene. En el diálogo, el preajuste se ve como «`<paquete>` · `<descripción>`» y pasa por la misma validación de siempre antes de exportar.
+
+**Entrelazado.** Con `tff` o `bff` la exportación compone a la tasa de campos (50 o 59,94 por segundo) y FFmpeg teje cada par con filtros LGPL: `setfield`, `separatefields`, `select` (el primer campo del cuadro par y el segundo del impar) y `weave`, con `-flags +ildct`. Solo ProRes lo codifica (DNxHR es progresivo) y nunca se usa la copia directa.
+
+**Video 360.** Con `equirectangular` (MP4 o MOV y salida 2:1), después de FFmpeg `SphericalMetadata` añade `st3d` (mono) y `sv3d` (`svhd`, `proj` con `prhd` y `equi`) al final de la entrada de muestra del video, corrige el tamaño de sus contenedores y, si el `moov` va antes de los datos, los desplazamientos de `stco`/`co64`. ffprobe lo lee como «Spherical Mapping: equirectangular».
 
 ### `PackageContentStore`
 
@@ -199,8 +253,19 @@ Rodaje viene completo como editor y exportador; el contenido es opcional y vive 
 
 | Repositorio | Id | Trae |
 |---|---|---|
-| `Dathinel/rodaje-transiciones` | `rodaje-transiciones` | 8 transiciones `rodaje.preset` v2 |
-| `Dathinel/rodaje-filtros` | `rodaje-filtros` | 8 looks: cada uno un filtro con su LUT 33³, generada por fórmulas propias (`generar.ps1`) |
+| `Dathinel/rodaje-transiciones` | `rodaje-transiciones` | 1.2.0: 45 transiciones `rodaje.preset` v2; las 23 nuevas usan las mezclas de calidad (giro, zoom con desenfoque, deslizar, barrido con luz, fallo, quemado, destello, luma y rebote, D-042), que en un Rodaje anterior se ven como fundido cruzado (la 1.1.0 traía 22 y la 1.0.0 las 8 de abajo) |
+| `Dathinel/rodaje-filtros` | `rodaje-filtros` | 1.1.0: 13 looks, cada uno un filtro con su LUT 33³ generada por fórmulas propias (`generar.ps1`); la 1.0.0 traía 8 |
+| `Dathinel/rodaje-fuentes` | `rodaje-fuentes` | 10 familias OFL sin modificar (elementos `font`) |
+| `Dathinel/rodaje-titulos` | `rodaje-titulos` | 15 estilos `rodaje.textstyle`, con subtítulos y karaoke (`highlight`) |
+| `Dathinel/rodaje-zonas` | `rodaje-zonas` | 12 juegos de zonas `rodaje.safezones` genéricos |
+| `Dathinel/rodaje-camaras` | `rodaje-camaras` | 9 looks de cámara (S-Log3, V-Log, C-Log2, C-Log3, LogC3, BMDFilm Gen5, F-Log, N-Log y HLG a Rec.709), cada uno un filtro con su LUT 33³ calculada con las fórmulas publicadas por el fabricante (`generar.ps1`, pruebas del gris del 18 % y del blanco en `probar.ps1`) |
+| `Dathinel/rodaje-sonidos` | `rodaje-sonidos` | 50 efectos de sonido WAV de 48 kHz sintetizados por `generar.ps1` (golpes, swooshes, clics, transiciones, notificaciones, risers, impactos y ambientes en bucle) |
+| `Dathinel/rodaje-preajustes-pro` | `rodaje-preajustes-pro` | 15 `export-preset`: maestros ProRes y DNxHR, emisión 1080i25 (EBU R128), 1080i29,97 (ATSC A/85) y 1080p25, cine 2K y 4K a 24 fps, archivo FFV1 y web VP9/AV1 con dos pasadas |
+| `Dathinel/rodaje-360` | `rodaje-360` | Activa el video 360: 9 efectos de `rodaje.reframe360` (vista plana, gran angular, pequeño planeta, túnel y paneos con keyframes) y 3 preajustes 360 con metadatos esféricos |
+
+**Video 360 (D-038).** El reencuadre (`rodaje.reframe360`, [formato del proyecto](https://github.com/Dathinel/rodaje/blob/main/docs/formato-proyecto.md)) es código del motor: un paquete no trae shaders. El registro lo marca con `Feature = "360"` y la app solo lo ofrece (biblioteca, inspector) con `rodaje-360` instalado (`EffectCatalog.FeaturesFrom`); el motor lo aplica siempre que un proyecto lo traiga.
+
+Los módulos de IA viven en repositorios propios con el mismo patrón (GPLv3 con los términos de Rodaje; el código está en `modules/` de Rodaje y cada release adjunta el que se compiló): `modulo-subtitulos`, `modulo-traducir`, `modulo-voz`, `modulo-audio-ia`, `modulo-vision` y `modulo-raw`, todos en 1.0.0 ([descarga.md](https://github.com/Dathinel/rodaje/blob/main/docs/descarga.md#estado)).
 
 | Transición | Curvas | Mezcla |
 |---|---|---|
@@ -239,14 +304,14 @@ Además, instalar, desinstalar y limpiar toman `complementos\.operacion.lock` (a
 Un módulo es un paquete con `"kind": "module"` y un bloque `module`:
 
 ```json
-"module": { "entry": "bin/Rodaje.Module.Subtitles.exe", "protocol": 1, "functions": ["subtitulos"], "vramMb": 1500 }
+"module": { "entry": "Rodaje.Module.Subtitles.exe", "protocol": 1, "functions": ["subtitulos"], "vramMb": 1500 }
 ```
 
-Se instala en `modulos\<id>\` y la página de complementos y el panel IA de la biblioteca muestran si está instalado. La app lo abre como proceso aparte con el [protocolo de módulos](https://github.com/Dathinel/rodaje/blob/main/docs/protocolo-modulos.md): lo que devuelve se convierte en una propuesta que se aplica como un paso normal del historial (Ctrl+Z la deshace). Los campos `vramMb`, `runtime` y `models` se describen en [Empaquetarlo](https://github.com/Dathinel/rodaje/blob/main/docs/protocolo-modulos.md#empaquetarlo).
+`entry` va en la raíz del paquete: el módulo busca sus modelos en `modelos\` junto a su exe, y cada `file` de `models` es `modelos/…`. Se instala en `modulos\<id>\` sin los modelos; Rodaje los baja después y los deja en `<carpeta del módulo>\<file>` ([descarga.md](https://github.com/Dathinel/rodaje/blob/main/docs/descarga.md#cómo-funciona)). La página de complementos y el panel IA de la biblioteca muestran si está instalado y si le faltan modelos. La app lo abre como proceso aparte con el [protocolo de módulos](https://github.com/Dathinel/rodaje/blob/main/docs/protocolo-modulos.md): lo que devuelve se convierte en una propuesta que se aplica como un paso normal del historial (Ctrl+Z la deshace). Los campos `vramMb`, `runtime` y `models` se describen en [Empaquetarlo](https://github.com/Dathinel/rodaje/blob/main/docs/protocolo-modulos.md#empaquetarlo).
 
 ## Catálogo
 
-`src/Rodaje.App/Services/Packages/catalogo.json` viaja dentro del ejecutable y lista los complementos conocidos: id, tipo, nombre, descripción, repositorio, programas y lo que trae. También nombra los programas (`rodaje`, y los editores de audio y de fotos como «en planes») para mostrar «Funciona en». El catálogo solo informa: lo que se instala siempre pasa por la validación del manifiesto. La descarga usa el índice firmado de `Dathinel/rodaje-catalogo` ([descarga.md](https://github.com/Dathinel/rodaje/blob/main/docs/descarga.md)); también se puede instalar con «Instalar desde archivo…» o soltando el `.paquete` en la biblioteca.
+`src/Rodaje.App/Services/Packages/catalogo.json` viaja dentro del ejecutable y lista los complementos publicados (transiciones, filtros, fuentes, títulos, zonas, looks de cámara, sonidos, preajustes profesionales, video 360 y los seis módulos): id, tipo, nombre, descripción, repositorio, programas y lo que trae (en un módulo, sus funciones). También nombra los programas (`rodaje`, y los editores de audio y de fotos como «en planes») para mostrar «Funciona en». El catálogo solo informa: lo que se instala siempre pasa por la validación del manifiesto. La descarga usa el índice firmado de `Dathinel/rodaje-catalogo` ([descarga.md](https://github.com/Dathinel/rodaje/blob/main/docs/descarga.md)); también se puede instalar con «Instalar desde archivo…» o soltando el `.paquete` en la biblioteca.
 
 ## Archivos
 
@@ -260,8 +325,10 @@ Se instala en `modulos\<id>\` y la página de complementos y el panel IA de la b
 | `PackageLibrary.cs` | Carpetas de paquetes, recorrido de lo instalado y elementos propios |
 | `PackageInstaller.cs` | Instalar, desinstalar y limpiar restos |
 | `PackageCatalog.cs` | Catálogo y la interfaz de descarga |
-| `Download/` | Índice firmado, política de URL, descarga reanudable y almacén de modelos ([descarga.md](https://github.com/Dathinel/rodaje/blob/main/docs/descarga.md)) |
+| `Download/` | Índice firmado, política de URL, descarga reanudable, almacén de modelos y `module.models` (`ModuleModels`) ([descarga.md](https://github.com/Dathinel/rodaje/blob/main/docs/descarga.md)) |
 | `Content/ContentTypes.cs`, `TextStyleTypes.cs` | `LutTable`, los preajustes ya leídos (`FilterPreset`, `EffectPreset`, `TransitionPreset`) y el estilo de texto |
 | `Content/ContentReaders.cs`, `CubeReader.cs`, `PresetReader.cs`, `PresetReader.TextStyle.cs` | Los lectores de `.cube`, `rodaje.filter`, `rodaje.effect`, `rodaje.preset` y `rodaje.textstyle` |
 | `Content/PresetReader.SafeZones.cs`, `SafeZoneTypes.cs` | Lector y escritor de `rodaje.safezones` |
+| `Content/PresetReader.ExportPreset.cs`, `ExportPresetTypes.cs` | Lector de `rodaje.exportpreset` |
+| `Content/WaveReader.cs` | Cabecera y muestras de los WAV de `sound` |
 | `Content/PackageContentStore.cs` | Carga y caché del contenido por referencia |
