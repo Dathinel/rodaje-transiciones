@@ -1,6 +1,6 @@
 # Formato `.paquete` (`formatVersion` 1)
 
-Un paquete es la forma en que llega a Rodaje todo lo que no es código del motor: transiciones, estilos de texto, efectos armados con las primitivas, filtros, LUT, plantillas y sonidos. También describe los módulos de IA, que son programas aparte. La [arquitectura](arquitectura/README.md#núcleo-contenido-e-ia) fija las reglas de fondo: un paquete de contenido **nunca trae código**, cada paquete vive en su propio repositorio de GitHub y el formato se comparte con otros programas de Dathinel. Por eso la lógica está en `src/Rodaje.Packages`, una biblioteca sin dependencias ni WinUI que puede salir tal cual a su propio repositorio cuando otro programa la necesite.
+Un paquete es la forma en que llega a Rodaje todo lo que no es código del motor: transiciones, estilos de texto, efectos armados con las primitivas, filtros, LUT, plantillas y sonidos. También describe los módulos de IA, que son programas aparte. La [arquitectura](https://github.com/Dathinel/rodaje/blob/main/docs/arquitectura/README.md#núcleo-contenido-e-ia) fija las reglas de fondo: un paquete de contenido **nunca trae código**, cada paquete vive en su propio repositorio de GitHub y el formato se comparte con otros programas de Dathinel. Por eso la lógica está en `src/Rodaje.Packages`, una biblioteca sin dependencias ni WinUI que puede salir tal cual a su propio repositorio cuando otro programa la necesite.
 
 ## El archivo
 
@@ -242,11 +242,11 @@ Un módulo es un paquete con `"kind": "module"` y un bloque `module`:
 "module": { "entry": "bin/Rodaje.Module.Subtitles.exe", "protocol": 1, "functions": ["subtitulos"], "vramMb": 1500 }
 ```
 
-Se instala en `modulos\<id>\` y la página de complementos y el panel IA de la biblioteca muestran si está instalado. La app lo abre como proceso aparte con el [protocolo de módulos](protocolo-modulos.md): lo que devuelve se convierte en una propuesta que se aplica como un paso normal del historial (Ctrl+Z la deshace). Los campos `vramMb`, `runtime` y `models` se describen en [Empaquetarlo](protocolo-modulos.md#empaquetarlo).
+Se instala en `modulos\<id>\` y la página de complementos y el panel IA de la biblioteca muestran si está instalado. La app lo abre como proceso aparte con el [protocolo de módulos](https://github.com/Dathinel/rodaje/blob/main/docs/protocolo-modulos.md): lo que devuelve se convierte en una propuesta que se aplica como un paso normal del historial (Ctrl+Z la deshace). Los campos `vramMb`, `runtime` y `models` se describen en [Empaquetarlo](https://github.com/Dathinel/rodaje/blob/main/docs/protocolo-modulos.md#empaquetarlo).
 
 ## Catálogo
 
-`src/Rodaje.App/Services/Packages/catalogo.json` viaja dentro del ejecutable y lista los complementos conocidos: id, tipo, nombre, descripción, repositorio, programas y lo que trae. También nombra los programas (`rodaje`, y los editores de audio y de fotos como «en planes») para mostrar «Funciona en». El catálogo solo informa: lo que se instala siempre pasa por la validación del manifiesto. La descarga usa el índice firmado de `Dathinel/rodaje-catalogo` ([descarga.md](descarga.md)); también se puede instalar con «Instalar desde archivo…» o soltando el `.paquete` en la biblioteca.
+`src/Rodaje.App/Services/Packages/catalogo.json` viaja dentro del ejecutable y lista los complementos conocidos: id, tipo, nombre, descripción, repositorio, programas y lo que trae. También nombra los programas (`rodaje`, y los editores de audio y de fotos como «en planes») para mostrar «Funciona en». El catálogo solo informa: lo que se instala siempre pasa por la validación del manifiesto. La descarga usa el índice firmado de `Dathinel/rodaje-catalogo` ([descarga.md](https://github.com/Dathinel/rodaje/blob/main/docs/descarga.md)); también se puede instalar con «Instalar desde archivo…» o soltando el `.paquete` en la biblioteca.
 
 ## Archivos
 
@@ -260,7 +260,7 @@ Se instala en `modulos\<id>\` y la página de complementos y el panel IA de la b
 | `PackageLibrary.cs` | Carpetas de paquetes, recorrido de lo instalado y elementos propios |
 | `PackageInstaller.cs` | Instalar, desinstalar y limpiar restos |
 | `PackageCatalog.cs` | Catálogo y la interfaz de descarga |
-| `Download/` | Índice firmado, política de URL, descarga reanudable y almacén de modelos ([descarga.md](descarga.md)) |
+| `Download/` | Índice firmado, política de URL, descarga reanudable y almacén de modelos ([descarga.md](https://github.com/Dathinel/rodaje/blob/main/docs/descarga.md)) |
 | `Content/ContentTypes.cs`, `TextStyleTypes.cs` | `LutTable`, los preajustes ya leídos (`FilterPreset`, `EffectPreset`, `TransitionPreset`) y el estilo de texto |
 | `Content/ContentReaders.cs`, `CubeReader.cs`, `PresetReader.cs`, `PresetReader.TextStyle.cs` | Los lectores de `.cube`, `rodaje.filter`, `rodaje.effect`, `rodaje.preset` y `rodaje.textstyle` |
 | `Content/PresetReader.SafeZones.cs`, `SafeZoneTypes.cs` | Lector y escritor de `rodaje.safezones` |
